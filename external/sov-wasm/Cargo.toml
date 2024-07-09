@@ -1,0 +1,25 @@
+[package]
+name = "sov-wasm"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+borsh = "0.10.3"
+serde_json = "1.0"
+serde = "1.0.196"
+
+sov-modules-api = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "e53ec9c668d880e24bb9bb93fcac4c1a598570d2"}
+sov-rollup-interface = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "e53ec9c668d880e24bb9bb93fcac4c1a598570d2"}
+
+sov-risc0-adapter = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "e53ec9c668d880e24bb9bb93fcac4c1a598570d2"}
+sov-mock-da = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "e53ec9c668d880e24bb9bb93fcac4c1a598570d2"}
+sov-mock-zkvm = { git = "ssh://git@github.com/Sovereign-Labs/sovereign-sdk-wip.git", rev = "e53ec9c668d880e24bb9bb93fcac4c1a598570d2"}
+
+stf-starter = { git = "ssh://git@github.com/Sovereign-Labs/sov-rollup-starter-wip.git", rev = "75248d72d67de222f4b1447c9622460890c7ea3e"}
+
+[dev-dependencies]
+
+serde_json = { version = "1.0", features=["std"]}
