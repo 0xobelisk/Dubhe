@@ -1,0 +1,53 @@
+[package]
+name = "module-template"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+readme = "README.md"
+publish = false
+resolver = "2"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+arbitrary = { workspace = true, optional = true }
+borsh = { workspace = true, features = ["rc"] }
+proptest = { workspace = true, optional = true }
+proptest-derive = { workspace = true, optional = true }
+schemars = { workspace = true, optional = true }
+serde = { workspace = true }
+
+sov-bank = { workspace = true }
+sov-modules-api = { workspace = true }
+sov-state = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+module-template = { path = ".", version = "*", features = ["native"] }
+sov-test-utils = { workspace = true }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+
+[features]
+default = []
+arbitrary = [
+    "dep:arbitrary",
+    "dep:proptest",
+    "dep:proptest-derive",
+    "module-template/arbitrary",
+    "sov-modules-api/arbitrary",
+    "sov-state/arbitrary",
+    "sov-test-utils/arbitrary",
+]
+native = [
+    "module-template/native",
+    "schemars",
+    "sov-bank/native",
+    "sov-modules-api/native",
+    "sov-state/native",
+]

@@ -1,0 +1,432 @@
+error[E0425]: cannot find value `api_state_accessor` in this scope
+  --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:96:26
+   |
+96 |                     .get(api_state_accessor)
+   |                          ^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:16
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                ^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+note: required by a bound in `sov_modules_api::Genesis::Spec`
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/mod.rs
+    |
+    |     type Spec: Spec;
+    |                ^^^^ required by this bound in `Genesis::Spec`
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:19
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                   ^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+    = note: this error originates in the derive macro `Genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:19
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                   ^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `T`, which is required by `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>: GenesisState<T>`
+    |
+    = note: required for `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>` to implement `GenesisState<T>`
+note: the requirement `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>: GenesisState<T>` appears on the `impl`'s method `genesis` but not on the corresponding trait's method
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/mod.rs
+    |
+    | pub trait Genesis {
+    |           ------- in this trait
+...
+    |     fn genesis(
+    |        ^^^^^^^ this trait's method doesn't have the requirement `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>: GenesisState<T>`
+    = note: this error originates in the derive macro `Genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:16
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                ^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+note: required by a bound in `sov_modules_api::DispatchCall::Spec`
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/dispatch.rs
+    |
+    |     type Spec: Spec;
+    |                ^^^^ required by this bound in `DispatchCall::Spec`
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:28
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                            ^^^^^^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+    = note: this error originates in the derive macro `DispatchCall` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: `ActualSpec` doesn't implement `std::fmt::Debug`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:115:19
+    |
+115 | impl TestSpec for ActualSpec {
+    |                   ^^^^^^^^^^ `ActualSpec` cannot be formatted using `{:?}`
+    |
+    = help: the trait `std::fmt::Debug` is not implemented for `ActualSpec`
+    = note: add `#[derive(Debug)]` to `ActualSpec` or manually `impl std::fmt::Debug for ActualSpec`
+note: required by a bound in `TestSpec`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:11:45
+    |
+11  | pub trait TestSpec: Default + Send + Sync + std::fmt::Debug + 'static {
+    |                                             ^^^^^^^^^^^^^^^ required by this bound in `TestSpec`
+help: consider annotating `ActualSpec` with `#[derive(Debug)]`
+    |
+113 + #[derive(Debug)]
+114 | struct ActualSpec;
+    |
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:28
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                            ^^^^^^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+note: required by a bound in `WorkingSet`
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/state/accessors/scratchpad.rs
+    |
+    | pub struct WorkingSet<S: Spec> {
+    |                          ^^^^ required by this bound in `WorkingSet`
+    = note: this error originates in the derive macro `DispatchCall` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0271]: type mismatch resolving `<QueryModule<S, <T as TestSpec>::Data> as ModuleInfo>::Spec == T`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:19
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                   ^^^^^^^ expected type parameter `T`, found type parameter `S`
+107 | #[serialization(borsh::BorshDeserialize, borsh::BorshSerialize)]
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                -            - found type parameter
+    |                |
+    |                expected type parameter
+    |
+    = note: expected type parameter `T`
+               found type parameter `S`
+    = note: a type parameter was expected, but a different one was found; you might be missing a type parameter or trait bound
+    = note: for more information, visit https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+    = note: required for the cast from `&QueryModule<S, <T as TestSpec>::Data>` to `&dyn sov_modules_api::ModuleInfo<Spec = T>`
+    = note: this error originates in the derive macro `Genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `T: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:19
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                   ^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `T`
+    |
+note: required by a bound in `sort_values_by_modules_dependencies`
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/lib.rs
+    |
+    | pub fn sort_values_by_modules_dependencies<S: Spec, TValue>(
+    |                                               ^^^^ required by this bound in `sort_values_by_modules_dependencies`
+    = note: this error originates in the derive macro `Genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider further restricting this bound
+    |
+108 | struct Runtime<T: TestSpec + sov_modules_api::Spec, S: Spec> {
+    |                            +++++++++++++++++++++++
+
+error[E0277]: the trait bound `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>: GenesisState<S>` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:19
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                   ^^^^^^^ the trait `GasMeter<<S as sov_modules_api::Spec>::Gas>` is not implemented for `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>`, which is required by `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>: GenesisState<S>`
+    |
+    = note: required for `impl sov_modules_api::GenesisState<<Self as sov_modules_api::Genesis>::Spec>` to implement `GenesisState<S>`
+note: required by a bound in `sov_modules_api::Genesis::genesis`
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/mod.rs
+    |
+    |     fn genesis(
+    |        ------- required by a bound in this associated function
+...
+    |         state: &mut impl GenesisState<Self::Spec>,
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `Genesis::genesis`
+    = note: this error originates in the derive macro `Genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0308]: mismatched types
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:28
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |                            ^^^^^^^^^^^^
+    |                            |
+    |                            expected `&Context<S>`, found `&Context<T>`
+    |                            arguments to this function are incorrect
+107 | #[serialization(borsh::BorshDeserialize, borsh::BorshSerialize)]
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                -            - expected type parameter
+    |                |
+    |                found type parameter
+    |
+    = note: expected reference `&sov_modules_api::Context<S>`
+               found reference `&sov_modules_api::Context<T>`
+    = note: a type parameter was expected, but a different one was found; you might be missing a type parameter or trait bound
+    = note: for more information, visit https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+note: method defined here
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/mod.rs
+    |
+    |     fn call(
+    |        ^^^^
+    = note: this error originates in the derive macro `DispatchCall` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `<T as TestSpec>::Data: std::default::Default` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:8
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `std::default::Default` is not implemented for `<T as TestSpec>::Data`, which is required by `Runtime<T, S>: std::default::Default`
+    |
+note: required for `Runtime<T, S>` to implement `std::default::Default`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:10
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |          ^^^^^^^ unsatisfied trait bound introduced in this `derive` macro
+    = note: this error originates in the derive macro `Default` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0599]: the function or associated item `default` exists for struct `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, Zk>, ActualSpec>`, but its trait bounds were not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:124:50
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    | ------------------------------------ function or associated item `default` not found for this struct because it doesn't satisfy `_: Default`
+...
+113 | struct ActualSpec;
+    | ----------------- doesn't satisfy `ActualSpec: sov_modules_api::Spec`
+...
+124 |     let runtime = &mut Runtime::<S, ActualSpec>::default();
+    |                                                  ^^^^^^^ function or associated item cannot be called due to unsatisfied trait bounds
+    |
+   ::: $WORKSPACE/crates/module-system/sov-modules-api/src/default_spec.rs
+    |
+    | pub struct DefaultSpec<InnerZkvm, OuterZkvm, Mode>(
+    | -------------------------------------------------- doesn't satisfy `_: TestSpec`
+    |
+note: the following trait bounds were not satisfied:
+      `ActualSpec: sov_modules_api::Spec`
+      `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:106:10
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |          ^^^^^^^ unsatisfied trait bound introduced in this `derive` macro
+note: the trait `sov_modules_api::Spec` must be implemented
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/spec.rs
+    |
+    | / pub trait Spec:
+    | |     BorshDeserialize
+    | |     + BorshSerialize
+    | |     + Default
+...   |
+    | |     + Generic
+    | |     + 'static
+    | |_____________^
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following traits define an item `default`, perhaps you need to implement one of them:
+            candidate #1: `std::default::Default`
+            candidate #2: `tinyvec::array::Array`
+            candidate #3: `sea_orm::entity::active_model::ActiveModelTrait`
+
+error[E0277]: the trait bound `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:124:24
+    |
+124 |     let runtime = &mut Runtime::<S, ActualSpec>::default();
+    |                        ^^^^^^^^^^^^^^^^^^^^^^^^ the trait `TestSpec` is not implemented for `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>`
+    |
+    = help: the trait `TestSpec` is implemented for `ActualSpec`
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:19
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                   ^^^^^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `ActualSpec: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:124:24
+    |
+124 |     let runtime = &mut Runtime::<S, ActualSpec>::default();
+    |                        ^^^^^^^^^^^^^^^^^^^^^^^^ the trait `sov_modules_api::Spec` is not implemented for `ActualSpec`
+    |
+    = help: the following other types implement trait `sov_modules_api::Spec`:
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Zk>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Native>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::WitnessGeneration>
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:32
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                                ^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, ActualSpec>: Genesis` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:126:35
+    |
+126 |     let mut genesis_state = state.to_genesis_state_accessor::<RT>(&config);
+    |                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `Genesis` is not implemented for `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, ActualSpec>`
+    |
+    = help: the trait `Genesis` is implemented for `Runtime<T, S>`
+
+error[E0277]: the trait bound `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:126:63
+    |
+126 |     let mut genesis_state = state.to_genesis_state_accessor::<RT>(&config);
+    |                                                               ^^ the trait `TestSpec` is not implemented for `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>`
+    |
+    = help: the trait `TestSpec` is implemented for `ActualSpec`
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:19
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                   ^^^^^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `ActualSpec: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:126:63
+    |
+126 |     let mut genesis_state = state.to_genesis_state_accessor::<RT>(&config);
+    |                                                               ^^ the trait `sov_modules_api::Spec` is not implemented for `ActualSpec`
+    |
+    = help: the following other types implement trait `sov_modules_api::Spec`:
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Zk>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Native>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::WitnessGeneration>
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:32
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                                ^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, ActualSpec>: EncodeCall<QueryModule<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, u32>>` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:132:10
+    |
+132 |         <RT as EncodeCall<my_module::QueryModule<S, u32>>>::encode_call(message);
+    |          ^^ the trait `EncodeCall<QueryModule<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, u32>>` is not implemented for `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>, ActualSpec>`
+    |
+    = help: the trait `EncodeCall<QueryModule<S, <T as TestSpec>::Data>>` is implemented for `Runtime<T, S>`
+
+error[E0277]: the trait bound `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:132:10
+    |
+132 |         <RT as EncodeCall<my_module::QueryModule<S, u32>>>::encode_call(message);
+    |          ^^ the trait `TestSpec` is not implemented for `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>`
+    |
+    = help: the trait `TestSpec` is implemented for `ActualSpec`
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:19
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                   ^^^^^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `ActualSpec: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:132:10
+    |
+132 |         <RT as EncodeCall<my_module::QueryModule<S, u32>>>::encode_call(message);
+    |          ^^ the trait `sov_modules_api::Spec` is not implemented for `ActualSpec`
+    |
+    = help: the following other types implement trait `sov_modules_api::Spec`:
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Zk>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Native>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::WitnessGeneration>
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:32
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                                ^^^^ required by this bound in `Runtime`
+
+error[E0599]: the function or associated item `decode_call` exists for struct `Runtime<DefaultSpec<MockZkVerifier, MockZkVerifier, Zk>, ActualSpec>`, but its trait bounds were not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:133:22
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    | ------------------------------------ function or associated item `decode_call` not found for this struct because it doesn't satisfy `_: DispatchCall`
+...
+113 | struct ActualSpec;
+    | ----------------- doesn't satisfy `ActualSpec: sov_modules_api::Spec`
+...
+133 |     let module = RT::decode_call(&serialized_message, &mut working_set).unwrap();
+    |                      ^^^^^^^^^^^ function or associated item cannot be called due to unsatisfied trait bounds
+    |
+   ::: $WORKSPACE/crates/module-system/sov-modules-api/src/default_spec.rs
+    |
+    | pub struct DefaultSpec<InnerZkvm, OuterZkvm, Mode>(
+    | -------------------------------------------------- doesn't satisfy `_: TestSpec`
+    |
+    = note: the following trait bounds were not satisfied:
+            `ActualSpec: sov_modules_api::Spec`
+            `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec`
+note: the trait `sov_modules_api::Spec` must be implemented
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/spec.rs
+    |
+    | / pub trait Spec:
+    | |     BorshDeserialize
+    | |     + BorshSerialize
+    | |     + Default
+...   |
+    | |     + Generic
+    | |     + 'static
+    | |_____________^
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `decode_call`, perhaps you need to implement it:
+            candidate #1: `sov_modules_api::DispatchCall`
+
+error[E0277]: the trait bound `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>: TestSpec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:133:18
+    |
+133 |     let module = RT::decode_call(&serialized_message, &mut working_set).unwrap();
+    |                  ^^ the trait `TestSpec` is not implemented for `DefaultSpec<MockZkVerifier, MockZkVerifier, sov_modules_api::execution_mode::Zk>`
+    |
+    = help: the trait `TestSpec` is implemented for `ActualSpec`
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:19
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                   ^^^^^^^^ required by this bound in `Runtime`
+
+error[E0277]: the trait bound `ActualSpec: sov_modules_api::Spec` is not satisfied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:133:18
+    |
+133 |     let module = RT::decode_call(&serialized_message, &mut working_set).unwrap();
+    |                  ^^ the trait `sov_modules_api::Spec` is not implemented for `ActualSpec`
+    |
+    = help: the following other types implement trait `sov_modules_api::Spec`:
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Zk>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::Native>
+              DefaultSpec<InnerZkvm, OuterZkvm, sov_modules_api::execution_mode::WitnessGeneration>
+note: required by a bound in `Runtime`
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:108:32
+    |
+108 | struct Runtime<T: TestSpec, S: Spec> {
+    |                                ^^^^ required by this bound in `Runtime`
+
+error[E0061]: this function takes 4 arguments but 3 arguments were supplied
+   --> tests/integration/rpc/expose_rpc_first_generic_not_spec.rs:136:19
+    |
+136 |     let context = Context::<S>::new(sender, sequencer, 1);
+    |                   ^^^^^^^^^^^^^^^^^         --------- an argument of type `Credentials` is missing
+    |
+note: associated function defined here
+   --> $WORKSPACE/crates/module-system/sov-modules-api/src/module/spec.rs
+    |
+    |     pub fn new(
+    |            ^^^
+help: provide the argument
+    |
+136 |     let context = Context::<S>::new(sender, /* Credentials */, sequencer, 1);
+    |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

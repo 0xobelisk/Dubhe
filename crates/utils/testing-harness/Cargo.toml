@@ -1,0 +1,44 @@
+[package]
+name = "testing-harness"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+publish = false
+resolver = "2"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+async-trait = { workspace = true }
+derive_more = { workspace = true }
+borsh = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+jsonrpsee = { workspace = true, features = ["client"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+toml = { workspace = true }
+tokio = { workspace = true, features = ["signal"] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+
+demo-stf = { workspace = true, features = ["native"] }
+sov-celestia-adapter = { workspace = true, features = ["native"] }
+sov-bank = { workspace = true, features = ["native"] }
+sov-cli = { workspace = true }
+sov-ledger-json-client = { workspace = true }
+sov-mock-zkvm = { workspace = true, features = ["native"] }
+sov-modules-api = { workspace = true, features = ["native"] }
+sov-modules-macros = { workspace = true }
+sov-modules-stf-blueprint = { workspace = true, features = ["native"] }
+sov-nonces = { workspace = true, features = ["native"] }
+sov-prover-incentives = { workspace =  true }
+sov-risc0-adapter = { workspace = true, features = ["native"] }
+sov-rollup-interface = { workspace = true, features = ["native"] }

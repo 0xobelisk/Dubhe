@@ -1,0 +1,9 @@
+mod archival_query_test;
+mod burn_test;
+mod capability_test;
+mod create_token_test;
+mod freeze_test;
+mod gas_test;
+mod helpers;
+mod mint_test;
+mod transfer_test;

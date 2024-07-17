@@ -1,0 +1,25 @@
+---
+source: full-node/sov-ledger-apis/tests/integration/rest.rs
+expression: response.data
+---
+{
+  "key": "foo",
+  "module": {
+    "name": "bank"
+  },
+  "number": 0,
+  "type": "event",
+  "value": {
+    "TokenCreated": {
+      "authorized_minters": [],
+      "coins": {
+        "amount": 0,
+        "token_id": "token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6"
+      },
+      "minter": {
+        "Module": "module_1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqn7stmj"
+      },
+      "token_name": "token"
+    }
+  }
+}

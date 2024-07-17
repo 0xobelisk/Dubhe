@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CallMessage",
+  "description": "This enumeration represents the available call messages for interacting with the sov-bank module.",
+  "oneOf": [
+    {
+      "description": "Creates a new token with the specified name and initial balance.",
+      "type": "object",
+      "required": [
+        "CreateToken"
+      ],
+      "properties": {
+        "CreateToken": {
+          "type": "object",
+          "required": [
+            "authorized_minters",
+            "initial_balance",
+            "mint_to_address",
+            "salt",
+            "token_name"
+          ],
+          "properties": {
+            "authorized_minters": {
+              "description": "Authorized minter list.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Address"
+              }
+            },
+            "initial_balance": {
+              "description": "The initial balance of the new token.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "mint_to_address": {
+              "description": "The address of the account that the new tokens are minted to.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "salt": {
+              "description": "Random value use to create a unique token ID.",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "token_name": {
+              "description": "The name of the new token.",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Transfers a specified amount of tokens to the specified address.",
+      "type": "object",
+      "required": [
+        "Transfer"
+      ],
+      "properties": {
+        "Transfer": {
+          "type": "object",
+          "required": [
+            "coins",
+            "to"
+          ],
+          "properties": {
+            "coins": {
+              "description": "The amount of tokens to transfer.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Coins"
+                }
+              ]
+            },
+            "to": {
+              "description": "The address to which the tokens will be transferred.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Burns a specified amount of tokens.",
+      "type": "object",
+      "required": [
+        "Burn"
+      ],
+      "properties": {
+        "Burn": {
+          "type": "object",
+          "required": [
+            "coins"
+          ],
+          "properties": {
+            "coins": {
+              "description": "The amount of tokens to burn.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Coins"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Mints a specified amount of tokens.",
+      "type": "object",
+      "required": [
+        "Mint"
+      ],
+      "properties": {
+        "Mint": {
+          "type": "object",
+          "required": [
+            "coins",
+            "mint_to_address"
+          ],
+          "properties": {
+            "coins": {
+              "description": "The amount of tokens to mint.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Coins"
+                }
+              ]
+            },
+            "mint_to_address": {
+              "description": "Address to mint tokens to",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Freezes a token so that the supply is frozen",
+      "type": "object",
+      "required": [
+        "Freeze"
+      ],
+      "properties": {
+        "Freeze": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "token_id": {
+              "description": "Address of the token to be frozen",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/TokenId"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "Address": {
+      "description": "Address",
+      "type": "string",
+      "pattern": "^sov1[a-zA-Z0-9]+$"
+    },
+    "Coins": {
+      "description": "Structure that stores information specifying a given `amount` (type [`Amount`]) of coins stored at a `token_id` (type [`crate::TokenId`]).",
+      "type": "object",
+      "required": [
+        "amount",
+        "token_id"
+      ],
+      "properties": {
+        "amount": {
+          "description": "The number of tokens",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "token_id": {
+          "description": "The ID of the token",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TokenId"
+            }
+          ]
+        }
+      }
+    },
+    "TokenId": {
+      "description": "A globally unique identifier.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint8",
+        "minimum": 0.0
+      },
+      "maxItems": 32,
+      "minItems": 32
+    }
+  }
+}

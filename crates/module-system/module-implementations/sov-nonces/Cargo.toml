@@ -1,0 +1,45 @@
+[package]
+name = "sov-nonces"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+description = "Sovereign SDK module for managing and tracking nonces"
+
+version = { workspace = true }
+readme = "README.md"
+resolver = "2"
+
+[dependencies]
+anyhow = { workspace = true }
+borsh = { workspace = true, features = ["rc"] }
+schemars = { workspace = true, optional = true }
+serde = { workspace = true }
+jsonrpsee = { workspace = true, features = ["macros", "client-core", "server"], optional = true }
+
+sov-modules-api = { workspace = true }
+sov-state = { workspace = true }
+
+[dev-dependencies]
+sov-nonces = { path = ".", features = ["native"] }
+tempfile = { workspace = true }
+sov-modules-api = { workspace = true, features = ["test-utils"] }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+sov-test-utils = { workspace = true }
+
+[features]
+default = []
+arbitrary = [
+    "sov-modules-api/arbitrary",
+    "sov-nonces/arbitrary",
+    "sov-state/arbitrary",
+    "sov-test-utils/arbitrary",
+]
+native = [
+    "jsonrpsee",
+    "schemars",
+    "sov-modules-api/native",
+    "sov-nonces/native",
+    "sov-state/native",
+]

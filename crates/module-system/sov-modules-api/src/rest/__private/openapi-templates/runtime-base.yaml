@@ -1,0 +1,175 @@
+openapi: "3.0.2"
+info:
+  title: Sovereign SDK runtime API
+  version: 0.1.0
+  description: |
+    This is the JSON API for the Sovereign SDK runtimes and modules.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: Sovereign Labs
+    url: https://github.com/Sovereign-Labs/sov-sdk
+    email: info@sovereign.xyz
+servers:
+  - url: http://localhost:12346
+    description: Localhost
+paths:
+  /:
+    get:
+      summary: Get the list of modules
+      operationId: getModules
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      modules:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ModuleOverviewFromRuntime"
+  /modules/{moduleName}:
+    get:
+      summary: Get module information by name
+      operationId: getModule
+      parameters:
+        - name: moduleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Module"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  parameters:
+    height:
+      name: height
+      in: query
+      description: The height of the block to query. If not provided, the latest available block is used.
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+  responses:
+    StateMapElementResponse:
+      description: Response containing the value of a `StateMap` element.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  key:
+                    $ref: "#/components/schemas/AnyJsonValue"
+                  value:
+                    $ref: "#/components/schemas/AnyJsonValue"
+                required:
+                  - key
+                  - value
+            required:
+              - data
+    StateItemResponse:
+      description: The state item.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StateItem"
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    AnyJsonValue:
+      oneOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: array
+          items:
+            $ref: "#/components/schemas/AnyJsonValue"
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnyJsonValue"
+    Module:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/ModuleId"
+        name:
+          type: string
+          description: The name of the module.
+        description:
+          type: string
+          description: A short description of the module.
+        prefix:
+          $ref: "#/components/schemas/Prefix"
+        state:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/StateItem"
+    StateItem:
+      type: object
+      properties:
+        r#type:
+          type: string
+          description: The type of the state item.
+        name:
+          type: string
+          description: The name of the state item.
+        description:
+          type: string
+          description: A short description of the state item.
+        namespace:
+          $ref: "#/components/schemas/Namespace"
+    Namespace:
+      type: string
+      description: The namespace of the state item.
+      enum:
+        - user
+        - kernel
+        - accessory
+    Prefix:
+      type: string
+      description: The prefix of the module.
+      pattern: "^0x[a-fA-F0-9]+$"
+      example: "0x1234567890abcdef"
+    ModuleId:
+      type: string
+      # Variable length hex string, prefix with "module_".
+      pattern: "^module_[a-fA-F0-9]+$"
+      description: The ID of a module.
+    ModuleOverviewFromRuntime:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/ModuleId"
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code related to this error
+        message:
+          type: string

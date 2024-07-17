@@ -1,0 +1,18 @@
+error[E0425]: cannot find value `api_state_accessor` in this scope
+  --> tests/integration/rpc/expose_rpc_associated_type_not_static.rs:96:26
+   |
+96 |                     .get(api_state_accessor)
+   |                          ^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0277]: the trait bound `<T as TestSpec>::Data: std::default::Default` is not satisfied
+   --> tests/integration/rpc/expose_rpc_associated_type_not_static.rs:108:8
+    |
+108 | struct Runtime<S: Spec, T: TestSpec> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `std::default::Default` is not implemented for `<T as TestSpec>::Data`, which is required by `Runtime<S, T>: std::default::Default`
+    |
+note: required for `Runtime<S, T>` to implement `std::default::Default`
+   --> tests/integration/rpc/expose_rpc_associated_type_not_static.rs:106:10
+    |
+106 | #[derive(Default, Genesis, DispatchCall, MessageCodec)]
+    |          ^^^^^^^ unsatisfied trait bound introduced in this `derive` macro
+    = note: this error originates in the derive macro `Default` (in Nightly builds, run with -Z macro-backtrace for more info)

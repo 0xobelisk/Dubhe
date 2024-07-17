@@ -1,0 +1,5 @@
+/target
+/demo_data
+/path_readme
+/tests/test_data/tmp
+mock_da.sqlite

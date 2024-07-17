@@ -1,0 +1,22 @@
+---
+source: full-node/sov-ledger-apis/tests/integration/rest.rs
+expression: response
+---
+{
+  "data": {
+    "proof": "YWdncmVnYXRlZC1wcm9vZg==",
+    "publicData": {
+      "codeCommitment": "Y29kZS1jb21taXRtZW50",
+      "finalSlotHash": "ZmluYWwtc2xvdC1oYXNo",
+      "finalSlotNumber": 18446744073709551615,
+      "finalStateRoot": "ZmluYWwtc3RhdGUtcm9vdA==",
+      "genesisStateRoot": "Z2VuZXNpcy1zdGF0ZS1yb290",
+      "initialSlotHash": "aW5pdGlhbC1zbG90LWhhc2g=",
+      "initialSlotNumber": 18446744073709551615,
+      "initialStateRoot": "aW5pdGlhbC1zdGF0ZS1yb290",
+      "validityConditions": []
+    },
+    "type": "aggregatedProof"
+  },
+  "meta": {}
+}

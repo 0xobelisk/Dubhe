@@ -1,0 +1,99 @@
+[gas.Bank]
+create_token = [4, 4]
+transfer = [5, 5]
+burn = [2, 2]
+mint = [2, 2]
+freeze = [1, 1]
+
+[constants]
+# We use the ID 4321 for demo purposes. Change this value before deploying!
+CHAIN_ID = 4321
+# When using soft-confirmations, this parameter sets the maximum number of slots that a transaction can be deferred by the sequencer before
+# being force-executed by the rollup. Decreasing the number of slots means that "forced" transactions are processed
+# more quickly in the worst case, but increases the likelihood that some soft confirmations
+# will be invalidated due to congestion on the DA layer. (Note that with an honest sequencer, this parameter has no effect
+# on the speed of inclusion for forced transactions, since they will always be included ASAP.)
+# Setting this parameter to 0 disables soft-confirmations entirely.
+DEFERRED_SLOTS_COUNT = 2
+# How many blobs from unregistered sequencers we will accept per slot
+# We can't slash misbehaving senders because they aren't a registered sequencer with a stake so
+# this serves as protection against spam.
+UNREGISTERED_BLOBS_PER_SLOT = 5
+# The fixed gas price of checking forced sequencer registration transactions.
+# This price is added to regular transaction checks & execution costs.
+# This should be set in such a way that forced sequencer registration is more expensive
+# than regular registration to prevent this mechanism being gamed instead of
+# used only when users feel they are being censored.
+GAS_FORCED_SEQUENCER_REGISTRATION_COST = [100000, 100000]
+# The ID of the "native token" of the rollup, which is used to pay gas fees.
+GAS_TOKEN_ID = "token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6"
+# --- Gas parameters to charge for state accesses ---
+# The cost of a storage access operation.
+GAS_TO_CHARGE_FOR_ACCESS = [5, 5]
+# Gas to refund for a read from a hot storage slot
+GAS_TO_REFUND_FOR_HOT_ACCESS = [4, 4]
+# Gas to charge for a write to a cold storage slot
+GAS_TO_CHARGE_FOR_WRITE = [10, 10]
+# Gas to refund for a write to a hot storage slot
+GAS_TO_REFUND_FOR_HOT_WRITE = [8, 8]
+# Gas to charge for decoding a state access
+GAS_TO_CHARGE_FOR_DECODING = [2, 2]
+# --- End Gas parameters to charge for state accesses ---
+# --- Gas parameters to specify how to charge gas for hashing ---
+# The cost of updating a hash.
+GAS_TO_CHARGE_PER_BYTE_HASH_UPDATE = [10, 10]
+# The cost of finalizing a hash.
+GAS_TO_CHARGE_PER_BYTE_HASH_FINALIZE = [3, 3]
+# --- End Gas parameters to specify how to charge gas for hashing ---
+# --- Gas parameters to specify how to charge gas for signature verification ---
+# The cost of verifying a signature per byte of the signature
+DEFAULT_GAS_TO_CHARGE_PER_BYTE_SIGNATURE_VERIFICATION = [1, 1]
+# The fixed cost of verifying a signature
+DEFAULT_FIXED_GAS_TO_CHARGE_PER_SIGNATURE_VERIFICATION = [100000, 100000]
+DEFAULT_GAS_TO_CHARGE_PER_BYTE_BORSH_DESERIALIZATION = [1, 1]
+TEST_U32 = 42
+TEST_BOOL = true
+TEST_STRING = "Some Other String"
+TEST_NESTED_ARRAY = [[7, 7, 7], [7, 7, 7]]
+TEST_TOKEN_ID = "token_1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnfxkwm"
+TEST_TOKEN_ID_INVALID_CHECKSUM = "token_1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqabcdef"
+TEST_ARRAY_OF_U8 = [
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11,
+    11
+]
+TEST_SLICE = [11, 11, 11]
+PERCENT_BASE_FEE_TO_BURN = 10
+INITIAL_GAS_LIMIT = [100000000, 100000000]
+INITIAL_BASE_FEE_PER_GAS = [100, 100]
+BASE_FEE_MAX_CHANGE_DENOMINATOR = 8
+ELASTICITY_MULTIPLIER = 2

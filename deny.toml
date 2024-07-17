@@ -1,0 +1,36 @@
+[licenses]
+# Deny crates that do not have a license.
+unlicensed = "deny"
+copyleft = "deny"
+allow = [
+    "Apache-2.0",
+    "MIT",
+    "Unlicense",
+    "Unicode-DFS-2016",
+    "MPL-2.0",
+    "ISC",
+    "CC0-1.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "OpenSSL",
+    "Apache-2.0 WITH LLVM-exception",
+    "Zlib",
+]
+
+[[licenses.clarify]]
+name = "ring"
+# ring is derived from BoringSSL and has a bit of a special licensing situation,
+# but we can effectively treat is as OpenSSL-like licensing.
+expression = "OpenSSL"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+
+[[licenses.exceptions]]
+allow = ["LGPL-3.0"]
+# Used by `risc0-circuit-recursion` in its build script: <https://github.com/risc0/risc0/blob/3177cdedda8fad56d7acd71fe2439e8dd0d93413/risc0/circuit/recursion/build.rs>.
+name = "downloader"
+version = "0.2"
+
+[bans]
+# We'd prefer to use Rustls instead of OpenSSL; this helps up from accidentally
+# using OpenSSL. See <https://github.com/Sovereign-Labs/sovereign-sdk-wip/issues/352>.
+deny = [{ name = "native-tls" }, { name = "openssl" }]

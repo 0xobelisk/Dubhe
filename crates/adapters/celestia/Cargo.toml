@@ -1,0 +1,78 @@
+[package]
+name = "sov-celestia-adapter"
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = true
+description = "Celestia DA adapter for Sovereign SDK rollups"
+homepage = { workspace = true }
+repository = { workspace = true }
+
+[lints]
+workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+borsh = { workspace = true, features = ["bytes"] }
+bech32 = "0.9.1"
+prost = "0.12"
+
+celestia-proto = { version = "0.2.0" }
+celestia-rpc = { version = "0.2.0", default-features = false, optional = true }
+celestia-types = { version = "0.2.0", default-features = false }
+celestia-tendermint = { version = "0.32.1", default-features = false }
+celestia-tendermint-proto = { version = "0.32.1" }
+nmt-rs = { version = "0.1.0", features = [
+    "serde",
+    "borsh",
+] }
+
+# Convenience
+async-trait = { workspace = true }
+anyhow = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true, features = ["serde"] }
+jsonrpsee = { version = "0.20", features = ["http-client"], optional = true }
+serde = { workspace = true }
+serde_json = { workspace = true, optional = true }
+tokio = { workspace = true, optional = true, features = ["sync"] }
+futures = { workspace = true, optional = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+risc0-cycle-macros = { workspace = true, optional = true }
+risc0-zkvm = { workspace = true, default-features = false, features = ["std"], optional = true }
+risc0-zkvm-platform = { workspace = true, optional = true }
+sov-rollup-interface = { workspace = true }
+
+[dev-dependencies]
+postcard = { version = "1", features = ["use-std"] }
+proptest = { workspace = true, features = ["std"] }
+sov-celestia-adapter = { path = ".", features = ["native"] }
+wiremock = "0.5"
+tokio = { workspace = true, features = ["test-util", "macros"] }
+# For serialization testing
+risc0-zkvm = { workspace = true, default-features = false, features = ["std"] }
+risc0-zkvm-platform = { workspace = true }
+
+[features]
+default = []
+native = [
+    "celestia-tendermint/default",
+    "dep:celestia-rpc",
+    "dep:futures",
+    "dep:jsonrpsee",
+    "dep:serde_json",
+    "dep:tokio",
+    "sov-celestia-adapter/native",
+    "sov-rollup-interface/native",
+]
+risc0 = ["sov-celestia-adapter/risc0"]
+bench = [
+    "dep:risc0-cycle-macros",
+    "dep:risc0-zkvm",
+    "dep:risc0-zkvm-platform",
+    "risc0-cycle-macros?/bench",
+    "sov-celestia-adapter/bench",
+    "sov-celestia-adapter/risc0",
+]

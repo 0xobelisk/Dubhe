@@ -1,0 +1,38 @@
+[package]
+name = "sov-rng-da-service"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+resolver = "2"
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+async-trait = { workspace = true }
+borsh = { workspace = true }
+serde = { workspace = true }
+futures = { workspace = true }
+# Sovereign dependencies
+demo-stf = { workspace = true, features = ["native"] }
+sov-bank = { workspace = true, features = ["native"] }
+sov-modules-api = { workspace = true, features = ["native"] }
+sov-rollup-interface = { workspace = true, features = ["native"] }
+sov-mock-da = { workspace = true, features = ["native"] }
+sov-test-utils = { workspace = true }
+
+[features]
+default = ["native"]
+native = [
+    "demo-stf/native",
+    "sov-bank/native",
+    "sov-mock-da/native",
+    "sov-modules-api/native",
+    "sov-rollup-interface/native",
+]

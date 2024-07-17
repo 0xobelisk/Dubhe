@@ -1,0 +1,146 @@
+[package]
+name = "sov-demo-rollup"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+homepage = { workspace = true }
+publish = false
+resolver = "2"
+default-run = "sov-demo-rollup"
+
+[lints]
+workspace = true
+
+[dependencies]
+# non-optional dependencies
+sov-celestia-adapter = { workspace = true, features = ["native"] }
+sov-mock-da = { workspace = true, features = ["native"] }
+const-rollup-config = { workspace = true }
+sov-stf-runner = { workspace = true, features = ["native"] }
+sov-rollup-interface = { workspace = true, features = ["native"] }
+sov-prover-storage-manager = { workspace = true }
+
+sov-modules-rollup-blueprint = { workspace = true, features = ["native"] }
+sov-kernels = { workspace = true }
+sov-modules-stf-blueprint = { workspace = true, features = ["native"] }
+sov-modules-api = { workspace = true, features = ["native"] }
+sov-nft-module = { workspace = true }
+demo-stf = { workspace = true, features = ["native"] }
+sov-ledger-apis = { workspace = true }
+risc0 = { path = "./provers/risc0" }
+borsh = { workspace = true, features = ["bytes"] }
+async-trait = { workspace = true }
+anyhow = { workspace = true }
+axum = { workspace = true }
+backon = { workspace = true }
+jsonrpsee = { workspace = true, features = ["http-client", "server", "ws-client"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+hex = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "sync", "time", "macros"] }
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+prometheus_exporter = "0.8.5"
+
+sov-db = { workspace = true }
+sov-ethereum = { workspace = true, features = ["local"] }
+sov-sequencer = { workspace = true }
+sov-risc0-adapter = { workspace = true, features = ["native"] }
+sov-mock-zkvm = { workspace = true, features = ["native"] }
+sov-state = { workspace = true, features = ["native"] }
+sov-cli = { workspace = true }
+clap = { workspace = true }
+secp256k1 = { workspace = true }
+sha2 = { workspace = true }
+
+# Only needed for NFT script.
+sov-test-utils = { workspace = true, optional = true }
+
+[dev-dependencies]
+sov-rng-da-service = { workspace = true }
+sov-rollup-interface = { workspace = true, features = ["arbitrary"] }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+sov-mock-da = { workspace = true }
+sov-bank = { workspace = true, features = ["native"] }
+sov-sequencer-registry = { workspace = true, features = ["native"] }
+sov-accounts = { workspace = true, features = ["native"] }
+sov-nft-module = { workspace = true, features = ["native"] }
+sov-ledger-json-client = { workspace = true }
+sov-modules-macros = { workspace = true }
+sov-test-utils = { workspace = true }
+sov-value-setter = { workspace = true, features = ["native"] }
+humantime = "2.1"
+reth-primitives = { workspace = true }
+futures = { workspace = true }
+
+hex = { workspace = true }
+bincode = { workspace = true }
+sha2 = { workspace = true }
+tempfile = { workspace = true }
+proptest = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+rand = { workspace = true }
+
+ethereum-types = { workspace = true }
+ethers-core = { workspace = true }
+ethers-contract = { workspace = true }
+ethers-middleware = { workspace = true }
+ethers-providers = { workspace = true }
+ethers-signers = { workspace = true }
+revm = { workspace = true }
+
+reqwest = { workspace = true }
+prometheus = { workspace = true }
+prettytable-rs = "^0.10"
+criterion = "0.5.1"
+log = "0.4"
+log4rs = "1.0"
+regex = "1.10"
+
+[features]
+default = []
+nft-script = ["sov-test-utils"]
+
+bench = [
+    "hex",
+    "risc0/bench",
+    "sov-celestia-adapter/bench",
+    "sov-modules-api/bench",
+    "sov-modules-stf-blueprint/bench",
+    "sov-risc0-adapter/bench",
+    "sov-state/bench",
+    "sov-sequencer-registry/bench"
+]
+offchain = ["demo-stf/offchain", "sov-nft-module/offchain"]
+
+[[bench]]
+name = "rollup_bench"
+path = "benches/node/rollup_bench.rs"
+harness = false
+required-features = ["bench"]
+
+[[bench]]
+name = "rollup_coarse_measure"
+path = "benches/node/rollup_coarse_measure.rs"
+harness = false
+required-features = ["bench"]
+
+[[bench]]
+name = "prover_bench"
+path = "benches/prover/prover_bench.rs"
+harness = false
+required-features = ["bench"]
+
+[[bin]]
+name = "sov-cli"
+path = "src/sov-cli/main.rs"
+
+[[bin]]
+name = "sov-nft-script"
+path = "src/bin/sov_nft_script.rs"
+required-features = ["nft-script"]
+
+[[bin]]
+name = "sov-demo-rollup"
+path = "src/main.rs"

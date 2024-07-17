@@ -1,0 +1,645 @@
+openapi: "3.0.2"
+info:
+  title: Sovereign SDK ledger API
+  version: 0.1.0
+  description: |
+    This is the JSON API for the Sovereign SDK ledger data.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: Sovereign Labs
+    url: https://github.com/Sovereign-Labs/sovereign-sdk
+    email: info@sovereign.xyz
+servers:
+  - url: http://localhost:12345
+    description: Localhost
+paths:
+  # Slots
+  # -------
+
+  /slots/latest:
+    get:
+      tags:
+        - ledger
+      summary: Get the latest slot.
+      operationId: get_latest_slot
+      parameters:
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Slot"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /slots/{slotId}:
+    get:
+      tags:
+        - ledger
+      summary: Get a slot by ID.
+      operationId: get_slot_by_id
+      parameters:
+        - $ref: "#/components/parameters/slotId"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Slot"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /slots/{slotId}/events:
+    get:
+      tags:
+        - ledger
+      summary: Get all the events for a slot, optionally filtered by key prefix.
+      operationId: get_slot_filtered_events
+      parameters:
+        - $ref: "#/components/parameters/slotId"
+        - name: prefix
+          in: query
+          description: The key prefix to filter by.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Events"
+  /slots/{slotId}/batches/{batchOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get a batch by slot ID and batch offset.
+      operationId: get_batch_by_slot_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/slotId"
+        - $ref: "#/components/parameters/batchOffset"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Batch"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /slots/{slotId}/batches/{batchOffset}/txs/{txOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get a transaction by slot ID, batch offset, and transaction offset.
+      operationId: get_tx_by_slot_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/slotId"
+        - $ref: "#/components/parameters/batchOffset"
+        - $ref: "#/components/parameters/txOffset"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Tx"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /slots/{slotId}/batches/{batchOffset}/txs/{txOffset}/events/{eventOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get an event by slot ID, batch offset, transaction offset, and event offset.
+      operationId: get_event_by_slot_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/slotId"
+        - $ref: "#/components/parameters/batchOffset"
+        - $ref: "#/components/parameters/txOffset"
+        - $ref: "#/components/parameters/eventOffset"
+      responses:
+        "200":
+          $ref: "#/components/responses/Event"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # Batches
+  # -------
+
+  /batches/{batchId}:
+    get:
+      tags:
+        - ledger
+      summary: Get a batch by ID.
+      operationId: get_batch_by_id
+      parameters:
+        - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Batch"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /batches/{batchId}/txs/{txOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get a transaction by batch ID and transaction offset.
+      operationId: get_tx_by_batch_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/txOffset"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Tx"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /batches/{batchId}/txs/{txOffset}/events/{eventOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get an event by batch ID, transaction offset, and event offset.
+      operationId: get_event_by_batch_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/txOffset"
+        - $ref: "#/components/parameters/eventOffset"
+      responses:
+        "200":
+          $ref: "#/components/responses/Event"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # Transactions
+  # ------------
+
+  /txs/{txId}:
+    get:
+      tags:
+        - ledger
+      summary: Get a transaction by ID.
+      operationId: get_tx_by_id
+      parameters:
+        - $ref: "#/components/parameters/txId"
+        - $ref: "#/components/parameters/children"
+      responses:
+        "200":
+          $ref: "#/components/responses/Tx"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /txs/{txId}/events/{eventOffset}:
+    get:
+      tags:
+        - ledger
+      summary: Get an event by transaction ID and event offset.
+      operationId: get_event_by_tx_id_and_offset
+      parameters:
+        - $ref: "#/components/parameters/txId"
+        - $ref: "#/components/parameters/eventOffset"
+      responses:
+        "200":
+          $ref: "#/components/responses/Event"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # Events
+  # ------
+
+  /events/{eventId}:
+    get:
+      tags:
+        - ledger
+      summary: Get an event by ID.
+      operationId: get_event_by_id
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+      responses:
+        "200":
+          $ref: "#/components/responses/Event"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # Other
+  # -----
+
+  /aggregated-proofs/latest:
+    get:
+      tags:
+        - ledger
+      summary: Get the latest aggregated proof.
+      operationId: get_latest_aggregated_proof
+      description: |
+        Get the latest aggregated proof. You can also subscribe to the latest
+        aggregated proof by using the `/aggregated-proofs/latest/ws` endpoint.
+      responses:
+        "200":
+          $ref: "#/components/responses/AggregatedProof"
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  parameters:
+    slotId:
+      name: slotId
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/IntOrHash"
+    batchId:
+      name: batchId
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/IntOrHash"
+    txId:
+      name: txId
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/IntOrHash"
+    eventId:
+      name: eventId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: uint64
+    batchOffset:
+      name: batchOffset
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: uint64
+    txOffset:
+      name: txOffset
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: uint64
+    eventOffset:
+      name: eventOffset
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: uint64
+    children:
+      name: children
+      in: query
+      description: |
+        The query mode to use when querying the ledger. If not specified, the
+        default is `Compact`.
+      required: false
+      schema:
+        type: string
+        default: "0"
+        enum:
+          - "0"
+          - "1"
+  responses:
+    AggregatedProof:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: "#/components/schemas/AggregatedProof"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    Slot:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: "#/components/schemas/Slot"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    Batch:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: "#/components/schemas/Batch"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    Tx:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: "#/components/schemas/Tx"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    Event:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: "#/components/schemas/Event"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    Events:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+              meta:
+                $ref: "#/components/schemas/Meta"
+            required:
+              - data
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+            required:
+              - errors
+            items:
+              $ref: "#/components/schemas/Error"
+  schemas:
+    AnyJsonValue:
+      oneOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: array
+          items:
+            $ref: "#/components/schemas/AnyJsonValue"
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnyJsonValue"
+    Meta:
+      type: object
+      additionalProperties: true
+      description: |
+        Catch-all object for details about the response. Currently
+        unused; may be used in the future for pagination details, request ID,
+        rate-limiting information, etc..
+    RewardedAddresses:
+      type: array
+      items:
+        type: string
+        format: byte
+    ValidityConditions:
+      type: array
+      items:
+        type: string
+        format: byte
+    IntOrHash:
+      oneOf:
+        - type: integer
+          description: Number
+          format: uint64
+        - $ref: "#/components/schemas/Hash"
+    CodeCommitment:
+      type: string
+      format: byte
+    AggregatedProofPublicData:
+      type: object
+      properties:
+        rewardedAddresses:
+          $ref: "#/components/schemas/RewardedAddresses"
+        validityConditions:
+          $ref: "#/components/schemas/ValidityConditions"
+        initialSlotNumber:
+          type: integer
+          format: uint64
+        finalSlotNumber:
+          type: integer
+          format: uint64
+        genesisStateRoot:
+          type: string
+          format: byte
+        initialStateRoot:
+          type: string
+          format: byte
+        finalStateRoot:
+          type: string
+          format: byte
+        initialSlotHash:
+          type: string
+          format: byte
+        finalSlotHash:
+          type: string
+          format: byte
+        codeCommitment:
+          $ref: "#/components/schemas/CodeCommitment"
+      required:
+        - rewardedAddresses
+        - validityConditions
+        - initialSlotNumber
+        - finalSlotNumber
+        - genesisStateRoot
+        - initialStateRoot
+        - finalStateRoot
+        - initialSlotHash
+        - finalSlotHash
+        - codeCommitment
+    AggregatedProof:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - aggregatedProof
+        publicData:
+          $ref: "#/components/schemas/AggregatedProofPublicData"
+        proof:
+          type: string
+          format: byte
+          description: Serialized aggregated proof, in Base64.
+      required:
+        - type
+        - publicData
+        - proof
+    Uint64Range:
+      type: object
+      properties:
+        start:
+          type: integer
+          format: uint64
+        end:
+          type: integer
+          format: uint64
+      required:
+        - start
+        - end
+    Slot:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - slot
+        number:
+          type: integer
+          format: uint64
+        hash:
+          $ref: "#/components/schemas/Hash"
+        stateRoot:
+          $ref: "#/components/schemas/HexBytes"
+        batchRange:
+          $ref: "#/components/schemas/Uint64Range"
+        batches:
+          type: array
+          items:
+            $ref: "#/components/schemas/Batch"
+        finalityStatus:
+          type: string
+          enum:
+            - pending
+            - finalized
+      required:
+        - type
+        - number
+        - hash
+        - stateRoot
+        - batchRange
+        - finalityStatus
+    Batch:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - batch
+        number:
+          type: integer
+          format: uint64
+        hash:
+          $ref: "#/components/schemas/Hash"
+        txRange:
+          $ref: "#/components/schemas/Uint64Range"
+        receipt:
+          $ref: "#/components/schemas/AnyJsonValue"
+        txs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tx"
+      required:
+        - type
+        - number
+        - hash
+        - txRange
+        - receipt
+    TxReceipt:
+      type: object
+      properties:
+        result:
+          type: string
+          enum:
+            - successful
+            - reverted
+            - skipped
+      required:
+        - result
+    Tx:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - tx
+        hash:
+          $ref: "#/components/schemas/Hash"
+        number:
+          type: integer
+          format: uint64
+        eventRange:
+          $ref: "#/components/schemas/Uint64Range"
+        body:
+          type: string
+          format: byte
+        receipt:
+          $ref: "#/components/schemas/TxReceipt"
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/Event"
+      required:
+        - type
+        - hash
+        - number
+        - eventRange
+        - body
+        - receipt
+    Event:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - event
+        number:
+          type: integer
+          format: uint64
+        key:
+          type: string
+        value:
+          type: object
+          additionalProperties: true
+        module:
+          $ref: "#/components/schemas/ModuleRef"
+      required:
+        - type
+        - number
+        - key
+        - value
+        - module
+    ModuleRef:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    Hash:
+      type: string
+      # Hash prefixed by `0x`, 32 bytes.
+      pattern: "^0x[a-fA-F0-9]{64}$"
+      description: Hash
+    HexBytes:
+      type: string
+      pattern: "^0x[a-fA-F0-9]+$"
+      description: Hex-encoded byte sequence
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code related to this error
+          example: 404
+        title:
+          type: string
+          example: Entity not found
+        details:
+          type: object
+      required:
+        - status
+        - title

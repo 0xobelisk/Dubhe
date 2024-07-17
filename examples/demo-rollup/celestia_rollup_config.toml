@@ -1,0 +1,34 @@
+[da]
+# The JWT used to authenticate with the celestia light client. Instructions for generating this token can be found in the README
+celestia_rpc_auth_token = "MY.SECRET.TOKEN"
+# The address of the *trusted* Celestia light client to interact with
+celestia_rpc_address = "http://127.0.0.1:26658"
+# The largest response the rollup will accept from the Celestia node. Defaults to 100 MB
+max_celestia_response_body_size = 104_857_600
+# The maximum time to wait for a response to an RPC query against Celestia node. Defaults to 60 seconds.
+celestia_rpc_timeout_seconds = 60
+# Address of this sequencer. Should match address of connected bridge/full node.
+# Taken from ../../docker/credentials/bridge-0.addr
+own_celestia_address = "celestia1a68m2l85zn5xh0l07clk4rfvnezhywc53g8x7s"
+
+[storage]
+# The path to the rollup's data directory. Paths that do not begin with `/` are interpreted as relative paths.
+path = "demo_data"
+
+# We define the rollup's genesis to occur at block number `genesis_height`. The rollup will ignore
+# any blocks before this height, and any blobs at this height will not be processed
+[runner]
+genesis_height = 3
+da_polling_interval_ms = 10000
+
+[runner.rpc_config]
+# the host and port to bind the rpc server for
+bind_host = "127.0.0.1"
+bind_port = 12345
+[runner.axum_config]
+bind_host = "127.0.0.1"
+bind_port = 12346
+
+[proof_manager]
+aggregated_proof_block_jump = 1
+prover_address = "sov1pv9skzctpv9skzctpv9skzctpv9skzctpv9skzctpv9skzctpv9stup8tx"

@@ -1,0 +1,20 @@
+[package]
+name = "sov-metrics"
+authors = { workspace = true }
+description = "Prometheus metrics for Sovereign rollups"
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+resolver = "2"
+
+[lints]
+workspace = true
+
+[dependencies]
+prometheus = { workspace = true }
+
+[features]
+native = []

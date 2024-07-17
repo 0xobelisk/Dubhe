@@ -1,0 +1,40 @@
+[package]
+name = "sov-ethereum"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+readme = "README.md"
+resolver = "2"
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+tracing = { workspace = true }
+jsonrpsee = { workspace = true, features = ["http-client", "server"] }
+sov-rollup-interface = { workspace = true, features = ["native"] }
+
+sov-evm = { workspace = true, features = ["native"] }
+sov-modules-api = { workspace = true, features = ["native"] }
+sov-eth-dev-signer = { workspace = true }
+
+borsh = { workspace = true }
+serde = { workspace = true }
+
+reth-primitives = { workspace = true }
+reth-rpc-types = { workspace = true }
+
+tokio = { workspace = true, features = ["sync"] }
+schnellru = "0.2.1"
+
+[dev-dependencies]
+proptest = { workspace = true }
+
+[features]
+default = []
+local = []

@@ -1,0 +1,33 @@
+- sov-rollup-interface
+- sov-mock-da
+- sov-mock-zkvm
+- sov-rest-utils
+- sov-db
+- sov-state
+- sov-prover-storage-manager
+- sov-modules-macros # Requires --no-verify because it writes outside of OUT_DIR.
+- sov-modules-api
+- sov-metrics
+- sov-sequencer
+- sov-sequencer-json-client
+- sov-modules-stf-blueprint
+- sov-stf-runner
+- sov-modules-rollup-blueprint
+- sov-ledger-apis
+- sov-ledger-json-client
+
+# Modules
+- sov-accounts
+- sov-bank
+- sov-sequencer-registry
+- sov-prover-incentives
+- sov-chain-state
+- sov-blob-storage
+- sov-nft-module
+- sov-nonces
+
+# Adapters
+- sov-risc0-adapter
+- sov-celestia-adapter
+- sov-mock-da
+- sov-mock-zkvm

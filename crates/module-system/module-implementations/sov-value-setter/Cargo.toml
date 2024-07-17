@@ -1,0 +1,41 @@
+[package]
+name = "sov-value-setter"
+description = "A Sovereign SDK example module for setting/reading value from state"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+readme = "README.md"
+resolver = "2"
+publish = false
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile = { workspace = true }
+sov-value-setter = { workspace = true, features = ["native"] }
+sov-modules-api = { workspace = true, features = ["native"] }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+sov-test-utils = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+sov-modules-api = { workspace = true }
+sov-state = { workspace = true }
+schemars = { workspace = true, optional = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+borsh = { workspace = true, features = ["rc"] }
+
+[features]
+default = []
+native = [
+    "schemars",
+    "sov-modules-api/native",
+    "sov-state/native",
+    "sov-value-setter/native",
+]

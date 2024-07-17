@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CallMessage",
+  "description": "Represents the available call messages for interacting with the sov-accounts module.",
+  "oneOf": [
+    {
+      "description": "Inserts a new credential id for the corresponding Account.",
+      "type": "object",
+      "required": [
+        "InsertCredentialId"
+      ],
+      "properties": {
+        "InsertCredentialId": {
+          "$ref": "#/definitions/CredentialId"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "CredentialId": {
+      "description": "Type that represents an identifier for an authorizer of the transaction. The credential is a [u8; 32] array. For example, this can be a padded EVM address or a hash of a rollup public key.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint8",
+        "minimum": 0.0
+      },
+      "maxItems": 32,
+      "minItems": 32
+    }
+  }
+}

@@ -1,0 +1,77 @@
+[package]
+name = "demo-stf"
+version = { workspace = true }
+edition = { workspace = true }
+resolver = "2"
+authors = { workspace = true }
+license = { workspace = true }
+homepage = "sovereign.xyz"
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+borsh = { workspace = true }
+serde = { workspace = true }
+jsonrpsee = { workspace = true, features = ["jsonrpsee-http-client", "server-core", "tokio"], optional = true }
+tokio = { workspace = true, features = ["sync"], optional = true }
+tracing = { workspace = true }
+
+sov-stf-runner = { workspace = true }
+sov-rollup-interface = { workspace = true }
+sov-cli = { workspace = true, optional = true }
+sov-sequencer-registry = { workspace = true }
+sov-prover-incentives = { workspace = true }
+sov-bank = { workspace = true }
+sov-nft-module = { workspace = true }
+sov-kernels = { workspace = true }
+sov-capabilities = { workspace = true }
+
+sov-mock-da = { workspace = true }
+sov-chain-state = { workspace = true }
+sov-modules-stf-blueprint = { workspace = true }
+sov-value-setter = { workspace = true }
+sov-accounts = { workspace = true }
+sov-nonces = { workspace = true }
+sov-state = { workspace = true }
+sov-modules-api = { workspace = true }
+sov-evm = { workspace = true }
+
+[dev-dependencies]
+demo-stf = { path = ".", features = ["native"] }
+tempfile = { workspace = true }
+rand = { workspace = true }
+sov-test-utils = { workspace = true }
+sov-mock-zkvm = { workspace = true }
+sov-modules-stf-blueprint = { workspace = true, features = ["test-utils"] }
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+
+[features]
+default = []
+offchain = ["demo-stf/offchain", "sov-nft-module/offchain"]
+native = [
+    "demo-stf/native",
+    "jsonrpsee",
+    "sov-accounts/native",
+    "sov-bank/native",
+    "sov-capabilities/native",
+    "sov-chain-state/native",
+    "sov-cli",
+    "sov-evm/native",
+    "sov-kernels/native",
+    "sov-mock-da/native",
+    "sov-mock-zkvm/native",
+    "sov-modules-api/native",
+    "sov-modules-stf-blueprint/native",
+    "sov-nft-module/native",
+    "sov-nonces/native",
+    "sov-prover-incentives/native",
+    "sov-rollup-interface/native",
+    "sov-sequencer-registry/native",
+    "sov-state/native",
+    "sov-stf-runner/native",
+    "sov-value-setter/native",
+    "tokio",
+]

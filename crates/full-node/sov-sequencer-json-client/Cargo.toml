@@ -1,0 +1,38 @@
+[package]
+name = "sov-sequencer-json-client"
+authors = { workspace = true }
+description = "A simple client for the Sovereign SDK sequencer JSON API"
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+version = { workspace = true }
+resolver = "2"
+
+[lints]
+workspace = true
+
+# These dependencies are not defined through workspace inheritance because
+# `progenitor` demands very specific version ranges for its dependencies. Read
+# more here: <https://github.com/oxidecomputer/progenitor>.
+[dependencies]
+# Core Progenitor dependencies, as described by the Progenitor README.
+chrono = { workspace = true, features = ["serde"] }
+futures = "0.3"
+progenitor = { git = "https://github.com/oxidecomputer/progenitor", rev = "0050f08b95edf9c0a7cbaad94161351af18e0246" }
+regress = "0.4.1"
+reqwest = { version = "0.11", features = ["rustls-tls", "json", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Custom extensions for WebSockets and our own code additions.
+anyhow = { workspace = true }
+base64 = { workspace = true }
+borsh = { workspace = true }
+rand = "0.8"
+sov-rollup-interface = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = "0.23"
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full"] }

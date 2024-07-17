@@ -1,0 +1,80 @@
+[package]
+name = "sov-evm"
+description = "A Sovereign SDK managing fungible tokens"
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+version = { workspace = true }
+readme = "README.md"
+resolver = "2"
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sov-modules-api = { workspace = true, features = ["evm"] }
+sov-rollup-interface = { workspace = true }
+sov-state = { workspace = true }
+
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+bytes = { workspace = true }
+serde = { workspace = true }
+borsh = { workspace = true, features = ["rc"] }
+hex = { workspace = true }
+jsonrpsee = { workspace = true, features = [
+    "macros",
+    "client-core",
+    "server",
+], optional = true }
+tracing = { workspace = true }
+secp256k1 = { workspace = true }
+
+alloy-sol-types = { version = "0.6", default-features = false }
+alloy-rpc-types = { workspace = true, optional = true }
+revm = { workspace = true, features = [
+    "optional_block_gas_limit",
+    "optional_eip3607",
+    "optional_no_base_fee",
+    "std",
+    "secp256k1",
+] }
+reth-primitives = { workspace = true }
+reth-rpc-types = { workspace = true }
+revm-inspectors = { workspace = true, optional = true }
+revm-primitives = { workspace = true }
+
+[dev-dependencies]
+sov-evm = { path = ".", features = ["native"] }
+tokio = { workspace = true, features = ["macros", "rt"] }
+tempfile = { workspace = true }
+bytes = { workspace = true }
+ethers-signers = { workspace = true }
+ethers-core = { workspace = true }
+secp256k1 = { workspace = true, features = ["rand-std"] }
+lazy_static = "1.4.0"
+
+sov-prover-storage-manager = { workspace = true, features = ["test-utils"] }
+sov-mock-da = { workspace = true, features = ["native"] }
+sov-test-utils = { workspace = true }
+sov-eth-dev-signer = { workspace = true }
+sov-modules-api = { workspace = true, features = ["test-utils"] }
+
+[features]
+default = []
+native = [
+    "alloy-rpc-types",
+    "jsonrpsee",
+    "revm-inspectors",
+    # Optional for speed up in native mode
+    # "revm/asm-keccak"
+    "sov-evm/native",
+    "sov-mock-da/native",
+    "sov-modules-api/native",
+    "sov-state/native",
+    "sov-rollup-interface/native"
+]
